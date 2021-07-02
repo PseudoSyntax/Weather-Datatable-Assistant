@@ -12,9 +12,6 @@ import java.util.Vector;
 import javax.swing.SwingUtilities;
 import java.net.URL;
 
-
-
-
 public class Main {
     public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -71,7 +68,7 @@ public class Main {
         splashScreen.dispose();  //Deletes frame
         /******SPLASH SCREEN******/
 
-        
+
         /***** Create JFrame *****/
         JFrame baseFrame = new JFrame();  //Create baseFrame of Application
         baseFrame.setSize(700, 700);
@@ -91,9 +88,23 @@ public class Main {
 
 
         //===============================================HOME PANEL===============================================
-        JLabel Welcome = new JLabel("\n Welcome " );
-        homePanel.add(Welcome);
+        //JLabel Welcome = new JLabel("\n Welcome " );
+        //homePanel.add(Welcome);
         tabs.addTab("Home", homePanel);
+
+        String data[][]={ {"Phoenix","7/2","100","F"},
+                {"Test","7/3","39","C"},
+                {"Random","5/6","70","F"}};
+        String column[]={"City Name","Date","Temperature","Type"};
+        JTable jt=new JTable(data,column);
+        jt.setBounds(30,40,200,300);
+        JScrollPane sp=new JScrollPane(jt);
+        homePanel.add(sp);
+
+
+
+
+
 
         //===============================================ABOUT PANEL===============================================
 
