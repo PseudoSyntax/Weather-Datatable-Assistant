@@ -139,9 +139,12 @@ public class Main {
         tabs.addTab("Save Data", saveDataPanel);
 
         JTable table = new JTable(data,column);
-        jt.setBounds(30,40,200,300);
         JScrollPane sp3=new JScrollPane(table);
-        saveDataPanel.add(sp3);
+
+        JTextField userInput = new JTextField(8);
+        saveDataPanel.add(userInput);
+        JLabel label1 = new JLabel(".csv");
+        saveDataPanel.add(label1);
 
         JButton b1 = new JButton();
         saveDataPanel.add(b1);
@@ -149,11 +152,17 @@ public class Main {
         b1.setText("Save data to .csv file");
         b1.setVisible(true);
 
+        saveDataPanel.add(sp3);
+
+
+
         b1.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Test.csv")))) {
+                String fileName = userInput.getText();
+
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)))) {
                     StringJoiner joiner = new StringJoiner("\n");
 
                     System.out.println(joiner.toString());
@@ -174,7 +183,7 @@ public class Main {
                 }
             }
         });
-        
+
         //Add JPanel for tables
         JPanel allTables = new JPanel(new GridLayout(6, 1));
         allTables.add(new JLabel("Table Layout"));
