@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.util.StringJoiner;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
 import java.net.URL;
@@ -107,12 +109,20 @@ public class Main {
 
 
 
+
         //===============================================ABOUT PANEL===============================================
 
         tabs.addTab("About", aboutPanel);
         //===============================================LOAD PANEL===============================================
 
         tabs.addTab("Load Data", loadDataPanel);
+
+
+
+
+
+
+
         //===============================================ADD PANEL===============================================
 
         tabs.addTab("Add Data", addDataPanel);
@@ -128,7 +138,43 @@ public class Main {
 
         tabs.addTab("Save Data", saveDataPanel);
 
+        JTable table = new JTable(data,column);
+        jt.setBounds(30,40,200,300);
+        JScrollPane sp3=new JScrollPane(table);
+        saveDataPanel.add(sp3);
 
+        JButton b1 = new JButton();
+        saveDataPanel.add(b1);
+        b1.setSize(400,400);
+        b1.setText("Save data to .csv file");
+        b1.setVisible(true);
+
+        b1.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Test.csv")))) {
+                    StringJoiner joiner = new StringJoiner("\n");
+
+                    System.out.println(joiner.toString());
+                    bw.write(joiner.toString());
+                    for (int row = 0; row < table.getRowCount(); row++) {
+                        joiner = new StringJoiner("\n");
+                        for (int col = 0; col < table.getColumnCount(); col++) {
+                            Object obj = table.getValueAt(row, col);
+                            String value = obj == null ? "null" : obj.toString();
+                            joiner.add(value);
+                        }
+                        System.out.println(joiner.toString());
+                        bw.write(joiner.toString());
+                        bw.newLine();
+                    }
+                } catch (IOException exp) {
+                    exp.printStackTrace();
+                }
+            }
+        });
+        
         //Add JPanel for tables
         JPanel allTables = new JPanel(new GridLayout(6, 1));
         allTables.add(new JLabel("Table Layout"));
