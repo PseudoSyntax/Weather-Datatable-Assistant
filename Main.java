@@ -63,7 +63,7 @@ public class Main {
             }
         };
         thread.start();
-        Thread.sleep(5500);  //Display Screen for a bit
+        Thread.sleep(100);  //Display Screen for a bit
         splashScreen.setVisible(false); //Removes splashscreen load
         splashScreen.dispose();  //Deletes frame
         /******SPLASH SCREEN******/
@@ -106,6 +106,7 @@ public class Main {
 
 
 
+
         //===============================================ABOUT PANEL===============================================
 
         tabs.addTab("About", aboutPanel);
@@ -115,6 +116,14 @@ public class Main {
         //===============================================ADD PANEL===============================================
 
         tabs.addTab("Add Data", addDataPanel);
+
+        JTable jt_add =new JTable(data,column);
+        jt.setBounds(30,40,200,300);
+        JScrollPane sp2=new JScrollPane(jt_add);
+        addDataPanel.add(sp2);
+
+
+
         //===============================================SAVE PANEL===============================================
 
         tabs.addTab("Save Data", saveDataPanel);
@@ -136,6 +145,7 @@ public class Main {
 
 
         /****TERMS OF USE FRAME****/
+        /*
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
         frame.add(new JLabel("Terms of Use"));
@@ -164,7 +174,7 @@ public class Main {
 
         //JOptionPane.showMessageDialog(frame,"Warning.","Warning Box", JOptionPane.WARNING_MESSAGE);
         //custom title, custom icon
-
+*/
     }
 
 }//end of Main
