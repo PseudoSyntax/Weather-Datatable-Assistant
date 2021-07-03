@@ -162,7 +162,7 @@ public class Main {
             {
                 String fileName = userInput.getText();
 
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)))) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) {
                     StringJoiner joiner = new StringJoiner("\n");
 
                     System.out.println(joiner.toString());
