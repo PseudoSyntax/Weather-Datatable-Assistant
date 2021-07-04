@@ -13,12 +13,12 @@ import java.util.StringJoiner;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
 import java.net.URL;
+import javax.swing.JFileChooser;
+
 
 public class Main {
     public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");  //Theme for the Windows, feel free to change it back to windows
-
+        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         JProgressBar progressBar; //Progress bar variable
 
         /*URL FOR SPLASHSCREEN*/
@@ -96,10 +96,11 @@ public class Main {
 
         String data[][]={ {"Phoenix","7/2","100","F"},
                 {"Test","7/3","39","C"},
-                {"Random","5/6","70","F"}};
+                {"Random","5/6","70","F"},
+                {"Random2","5/9","49","C"} };
         String column[]={"City Name","Date","Temperature","Type"};
         JTable jt=new JTable(data,column);
-        jt.setBounds(30,40,200,300);
+        jt.setBounds(35,40,200,300);
         JScrollPane sp=new JScrollPane(jt);
         homePanel.add(sp);
 
@@ -133,6 +134,86 @@ public class Main {
         addDataPanel.add(sp2);
 
 
+        JLabel cityName = new JLabel("City");
+        JLabel date = new JLabel("Date");
+        JLabel tempBtn = new JLabel("Temperature");
+        JLabel degreeType = new JLabel("Degree Type(C/F)");
+
+
+        JTextField cityText = new JTextField("City",10);
+        JTextField dateText = new JTextField("Date",10);
+        JTextField tempText = new JTextField("Temperature",10);
+        JTextField degreeText = new JTextField("Degree Type",10);
+
+        addDataPanel.add(cityName);
+        addDataPanel.add(cityText);
+
+        addDataPanel.add(date);
+        addDataPanel.add(dateText);
+
+        addDataPanel.add(tempBtn);
+        addDataPanel.add(tempText);
+
+        addDataPanel.add(degreeType);
+        addDataPanel.add(degreeText);
+
+
+
+        JButton addRowBtn = new JButton("Submit");
+        addDataPanel.add(addRowBtn);
+
+        //String cityInput = cityText.getText();
+        //String dateInput = dateText.getText();
+        //String tempInput = tempText.getText();
+        //String degreeInput = degreeText.getText();
+
+
+
+        addRowBtn.addActionListener(new ActionListener() {
+            int count=1;//helps array grow with each btn click
+            int tail = 0;
+            int i,j;
+
+            public void actionPerformed(ActionEvent e) {
+            System.out.println("length of row "+data.length);
+                System.out.println("length of col "+data[0].length);
+                String cityInput = cityText.getText();
+                String dateInput = dateText.getText();
+                String tempInput = tempText.getText();
+                String degreeInput = degreeText.getText();
+
+                int n = data.length;//row size
+                int m = data[0].length;//col size
+
+                String[][] data2 = new String[count+data.length][4]; //new array declared
+                    for ( i=0; i < data.length;i++ ) {
+                        for ( j=0; j < data[0].length;j++) { //we used num[0] because we need the length of the rows not the columns
+                            data2[i][j] = data[i][j];
+                            System.out.println(data2[i][j]); //Copies array
+                        }
+                    }
+                for ( i = data.length; i < data.length+count;i++ ) {
+                    for (j = 0; j < 4; j++) {
+                        while(tail!=count) {
+                            data2[i][0] = cityInput;
+                            data2[i][1] = dateInput;
+                            data2[i][2] = tempInput;
+                            data2[i][3] = degreeInput;
+                            tail++;
+                        }
+
+                        System.out.println(data2[i][j]); //Copies array
+
+                    }
+                }
+                //data[data2.length][4] = data2[i][j];//update data array size with data2 array size
+                count++;//updates data length
+                System.out.println("count var: "+count);
+            }
+
+        });
+
+
 
         //===============================================SAVE PANEL===============================================
 
@@ -149,11 +230,10 @@ public class Main {
         JButton b1 = new JButton();
         saveDataPanel.add(b1);
         b1.setSize(400,400);
-        b1.setText("Save data");
+        b1.setText("Save data to .csv file");
         b1.setVisible(true);
 
         saveDataPanel.add(sp3);
-
 
 
         b1.addActionListener(new ActionListener()
@@ -161,30 +241,45 @@ public class Main {
             public void actionPerformed(ActionEvent e)
             {
                 String fileName = userInput.getText();
+                //*************************************ADDED*************************************
+                //Not final just code I wil/ implement into the existing buffer reader later
+                /*
+                JFrame fileExp = new JFrame();
 
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Specify a file to save");
+
+                int userSelect = fileChooser.showSaveDialog(fileExp);
+
+                if (userSelect == JFileChooser.APPROVE_OPTION) {
+                    File fileToSave = fileChooser.getSelectedFile();
+                    JFrame locationFrame = new JFrame();
+                    JOptionPane.showMessageDialog(locationFrame,"File saved to: " + fileToSave.getAbsolutePath(),"File Location", JOptionPane.INFORMATION_MESSAGE);
+                }
+                */
+                //*************************************ADDED*************************************
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) {
-                    StringJoiner joiner = new StringJoiner(",");
+                    StringJoiner joiner = new StringJoiner("\n");
 
-                    for (int col = 0; col < table.getColumnCount(); col++) {
-                        joiner.add(table.getColumnName(col));
-                    }
-
+                    System.out.println(joiner.toString());
                     bw.write(joiner.toString());
-                    bw.newLine();
-
                     for (int row = 0; row < table.getRowCount(); row++) {
-                        joiner = new StringJoiner(",");
+                        joiner = new StringJoiner("\n");
                         for (int col = 0; col < table.getColumnCount(); col++) {
                             Object obj = table.getValueAt(row, col);
                             String value = obj == null ? "null" : obj.toString();
                             joiner.add(value);
                         }
+                        System.out.println(joiner.toString());
                         bw.write(joiner.toString());
                         bw.newLine();
                     }
+
                 } catch (IOException exp) {
                     exp.printStackTrace();
                 }
+                JFrame localFile = new JFrame();
+                JOptionPane.showMessageDialog(localFile,"File saved to Project folder!","File Location", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -192,9 +287,12 @@ public class Main {
         JPanel allTables = new JPanel(new GridLayout(6, 1));
         allTables.add(new JLabel("Table Layout"));
 
-
+        //===============================================PLOT PANEL===============================================
         JScrollPane plotDataPanel = new JScrollPane(allTables);
         tabs.addTab("Plot Data", plotDataPanel);
+        
+
+
 
         //baseFrame layout
         tabs.setBorder(BorderFactory.createTitledBorder("Menu"));
@@ -208,31 +306,25 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
         frame.add(new JLabel("Terms of Use"));
-
         frame.setSize(400,450);
         JLabel README = new JLabel("You agree to give us A+");
         JButton AgreeBtn = new JButton("I AGREE");
         JButton DisagreeBtn = new JButton("I DISAGREE FOR NOW");
-
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
         TextArea Terms = new TextArea(20,50);
         Terms.append("Text goes here");
         Terms.setEditable(false);
-
         JScrollPane scroll = new JScrollPane(Terms);
         Terms.setBackground(Color.LIGHT_GRAY);
-
         frame.add(scroll);
         frame.add(AgreeBtn);
         frame.add(DisagreeBtn);
         frame.add(README);
         frame.setVisible(true);
-
         //JOptionPane.showMessageDialog(frame,"Warning.","Warning Box", JOptionPane.WARNING_MESSAGE);
-        //custom title, custom icon
+
 */
     }
 
