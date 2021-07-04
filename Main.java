@@ -12,11 +12,17 @@ import java.net.MalformedURLException;
 import java.util.StringJoiner;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
+
 import java.net.URL;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+	
+	static String data [][];
+	static String column[]={"City Name","Date","Temperature","Type"};
+	
+	public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException 
+	{
+		//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");  //Theme for the Windows, feel free to change it back to windows
 
         JProgressBar progressBar; //Progress bar variable
@@ -93,15 +99,12 @@ public class Main {
         //JLabel Welcome = new JLabel("\n Welcome " );
         //homePanel.add(Welcome);
         tabs.addTab("Home", homePanel);
-
-        String data[][]={ {"Phoenix","7/2","100","F"},
-                {"Test","7/3","39","C"},
-                {"Random","5/6","70","F"}};
-        String column[]={"City Name","Date","Temperature","Type"};
-        JTable jt=new JTable(data,column);
+        
+        
+        /*JTable jt=new JTable(data,column);
         jt.setBounds(30,40,200,300);
         JScrollPane sp=new JScrollPane(jt);
-        homePanel.add(sp);
+        homePanel.add(sp);*/
 
 
 
@@ -112,34 +115,119 @@ public class Main {
 
         //===============================================ABOUT PANEL===============================================
 
-        tabs.addTab("About", aboutPanel);
+        
+        JPanel pain = new JPanel();
+        pain.setBackground(Color.WHITE);
+        
+        
+        JLabel group = new JLabel("\t\tTeam #28\n\n");
+        group.setFont(new Font("Times New Roman", Font.BOLD,18));
+        JLabel name1 = new JLabel("\t\t\tImaan Ahmed\n");
+        name1.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name2 = new JLabel("\t\t\tMay Lister\n");
+        name2.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name3 = new JLabel("\t\t\tCera Monson\n");
+        name3.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name4 = new JLabel("\t\t\tItalo Pennella");
+        name4.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        
+        BoxLayout Box = new BoxLayout(pain, BoxLayout.Y_AXIS);
+        pain.setLayout(Box);
+        
+        pain.add(group);
+        pain.add(name1);
+        pain.add(name2);
+        pain.add(name3);
+        pain.add(name4);
+        
+        
+        tabs.addTab("About", pain);
+        
         //===============================================LOAD PANEL===============================================
 
         tabs.addTab("Load Data", loadDataPanel);
-
-
-
-
-
+        
+        JLabel selectFile = new JLabel("Select File");
+        loadDataPanel.add(selectFile);
+        JTextField fileInput = new JTextField(10);
+        loadDataPanel.add(fileInput);
+        
+        JButton select = new JButton();
+        select.setSize(400,100);
+        select.setText("Select File");
+        select.setVisible(true);
+        loadDataPanel.add(select);
+        
+        select.addActionListener(new ActionListener()
+        	{
+        		public void actionPerformed(ActionEvent e)
+        		{
+        			String file = fileInput.getText();
+        			try
+        			{
+        				FileReader fr = new FileReader(file);
+        				BufferedReader br = new BufferedReader(fr);
+        				String line = br.readLine();
+        				line = br.readLine();
+        				//counting amount of data for new array
+        				int count = 0;
+        				
+        				while(line != null)
+        				{
+        					line = br.readLine();
+        					count++;
+        				}
+        				
+        				FileReader fr2 = new FileReader(file);
+        				BufferedReader br2 = new BufferedReader(fr2);
+        				String line2 = br2.readLine();
+        				
+        				line2 = br2.readLine();		//to skip over columns line
+        				String[][] data2 = new String[count][4];
+        				int i = 0;
+        				
+        				while (line2 != null)
+        				{
+        					String[] words = line2.split(",", 4);
+        					data2[i][0] = words[0];
+        					data2[i][1] = words[1];
+        					data2[i][2] = words[2];
+        					data2[i][3] = words[3];
+        					
+        					i++;
+        					line2 = br2.readLine();
+        				}
+        				
+        				changer(data2);
+        				
+        				br.close();
+        				br2.close();
+        				
+        			}
+        			catch (IOException e2)
+        			{
+        				System.out.println("IO Exception");
+        			}
+        			
+        			
+        		}
+        	});
 
 
         //===============================================ADD PANEL===============================================
 
         tabs.addTab("Add Data", addDataPanel);
 
-        JTable jt_add =new JTable(data,column);
+        /*JTable jt_add =new JTable(data,column);
         jt.setBounds(30,40,200,300);
         JScrollPane sp2=new JScrollPane(jt_add);
-        addDataPanel.add(sp2);
+        addDataPanel.add(sp2);*/
 
 
 
         //===============================================SAVE PANEL===============================================
 
         tabs.addTab("Save Data", saveDataPanel);
-
-        JTable table = new JTable(data,column);
-        JScrollPane sp3=new JScrollPane(table);
 
         JTextField userInput = new JTextField(8);
         saveDataPanel.add(userInput);
@@ -152,8 +240,6 @@ public class Main {
         b1.setText("Save data");
         b1.setVisible(true);
 
-        saveDataPanel.add(sp3);
-
 
 
         b1.addActionListener(new ActionListener()
@@ -162,29 +248,36 @@ public class Main {
             {
                 String fileName = userInput.getText();
 
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) 
+                {
                     StringJoiner joiner = new StringJoiner(",");
 
-                    for (int col = 0; col < table.getColumnCount(); col++) {
-                        joiner.add(table.getColumnName(col));
+                    for (int col = 0; col < column.length; col++) 
+                    {
+                        joiner.add(column[col]);
                     }
 
                     bw.write(joiner.toString());
                     bw.newLine();
 
-                    for (int row = 0; row < table.getRowCount(); row++) {
-                        joiner = new StringJoiner(",");
-                        for (int col = 0; col < table.getColumnCount(); col++) {
-                            Object obj = table.getValueAt(row, col);
-                            String value = obj == null ? "null" : obj.toString();
-                            joiner.add(value);
-                        }
-                        bw.write(joiner.toString());
+                    
+                    for(int r = 0; r<data.length; r++)
+                    {
+                    	joiner = new StringJoiner(",");
+                    	for (int c = 0; c<data[r].length; c++)
+                    	{
+                    		Object obj = data[r][c];
+                    		String value = obj == null ? "null" : obj.toString();
+                    		joiner.add(value);
+                    	}
+                    	bw.write(joiner.toString());
                         bw.newLine();
                     }
-                } catch (IOException exp) {
+                    
+                } catch (IOException exp) 
+                	{
                     exp.printStackTrace();
-                }
+                	}
             }
         });
 
@@ -208,32 +301,38 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
         frame.add(new JLabel("Terms of Use"));
-
         frame.setSize(400,450);
         JLabel README = new JLabel("You agree to give us A+");
         JButton AgreeBtn = new JButton("I AGREE");
         JButton DisagreeBtn = new JButton("I DISAGREE FOR NOW");
-
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
         TextArea Terms = new TextArea(20,50);
         Terms.append("Text goes here");
         Terms.setEditable(false);
-
         JScrollPane scroll = new JScrollPane(Terms);
         Terms.setBackground(Color.LIGHT_GRAY);
-
         frame.add(scroll);
         frame.add(AgreeBtn);
         frame.add(DisagreeBtn);
         frame.add(README);
         frame.setVisible(true);
-
         //JOptionPane.showMessageDialog(frame,"Warning.","Warning Box", JOptionPane.WARNING_MESSAGE);
         //custom title, custom icon
 */
-    }
+	}
+	
+	public static void changer(String[][] temps)
+	{
+		data = temps;
+	}
+	public static JTable createTables()
+	{
+		JTable jazz = new JTable(data,column);
+		
+		return jazz;
+	}
 
+    
 }//end of Main
