@@ -149,7 +149,7 @@ public class Main {
         JButton b1 = new JButton();
         saveDataPanel.add(b1);
         b1.setSize(400,400);
-        b1.setText("Save data to .csv file");
+        b1.setText("Save data");
         b1.setVisible(true);
 
         saveDataPanel.add(sp3);
@@ -163,18 +163,22 @@ public class Main {
                 String fileName = userInput.getText();
 
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) {
-                    StringJoiner joiner = new StringJoiner("\n");
+                    StringJoiner joiner = new StringJoiner(",");
 
-                    System.out.println(joiner.toString());
+                    for (int col = 0; col < table.getColumnCount(); col++) {
+                        joiner.add(table.getColumnName(col));
+                    }
+
                     bw.write(joiner.toString());
+                    bw.newLine();
+
                     for (int row = 0; row < table.getRowCount(); row++) {
-                        joiner = new StringJoiner("\n");
+                        joiner = new StringJoiner(",");
                         for (int col = 0; col < table.getColumnCount(); col++) {
                             Object obj = table.getValueAt(row, col);
                             String value = obj == null ? "null" : obj.toString();
                             joiner.add(value);
                         }
-                        System.out.println(joiner.toString());
                         bw.write(joiner.toString());
                         bw.newLine();
                     }
