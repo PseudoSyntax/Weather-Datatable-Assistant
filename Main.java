@@ -1,6 +1,4 @@
-/**
- * <>
- * CSE 360: Group Assignment
+* CSE 360: Group Assignment
  */
 import java.awt.*;
 import javax.swing.*;
@@ -17,7 +15,9 @@ import java.net.URL;
 
 public class Main {
 	
-	static String data [][];
+	static String data [][] = { {"Phoenix","7/2","100","F"},
+	        {"Test","7/3","39","C"},
+	        {"Random","5/6","70","F"}};
 	static String column[]={"City Name","Date","Temperature","Type"};
 	
 	public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException 
@@ -89,6 +89,7 @@ public class Main {
         JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
         JPanel homePanel = new JPanel();
+        JPanel homePanel2 = new JPanel();
         JPanel aboutPanel = new JPanel();
         JPanel loadDataPanel = new JPanel();
         JPanel addDataPanel = new JPanel();
@@ -99,12 +100,9 @@ public class Main {
         //JLabel Welcome = new JLabel("\n Welcome " );
         //homePanel.add(Welcome);
         tabs.addTab("Home", homePanel);
-        
-        
-        /*JTable jt=new JTable(data,column);
-        jt.setBounds(30,40,200,300);
-        JScrollPane sp=new JScrollPane(jt);
-        homePanel.add(sp);*/
+        JTable tempor = new JTable();
+        JScrollPane jsp = createTables(tempor);
+        homePanel.add(jsp);
 
 
 
@@ -115,11 +113,11 @@ public class Main {
 
         //===============================================ABOUT PANEL===============================================
 
-        
+        //panel and color
         JPanel pain = new JPanel();
         pain.setBackground(Color.WHITE);
         
-        
+        //creating text
         JLabel group = new JLabel("\t\tTeam #28\n\n");
         group.setFont(new Font("Times New Roman", Font.BOLD,18));
         JLabel name1 = new JLabel("\t\t\tImaan Ahmed\n");
@@ -131,6 +129,7 @@ public class Main {
         JLabel name4 = new JLabel("\t\t\tItalo Pennella");
         name4.setFont(new Font("Times New Roman", Font.PLAIN,15));
         
+        //setting layout and adding text
         BoxLayout Box = new BoxLayout(pain, BoxLayout.Y_AXIS);
         pain.setLayout(Box);
         
@@ -140,24 +139,28 @@ public class Main {
         pain.add(name3);
         pain.add(name4);
         
-        
+        //adding panel to tabs
         tabs.addTab("About", pain);
         
         //===============================================LOAD PANEL===============================================
 
+        //add load tab
         tabs.addTab("Load Data", loadDataPanel);
         
+        //setting up text field for user to enter filename
         JLabel selectFile = new JLabel("Select File");
         loadDataPanel.add(selectFile);
         JTextField fileInput = new JTextField(10);
         loadDataPanel.add(fileInput);
         
+        //select file button
         JButton select = new JButton();
         select.setSize(400,100);
         select.setText("Select File");
         select.setVisible(true);
         loadDataPanel.add(select);
         
+        //result of pushing button
         select.addActionListener(new ActionListener()
         	{
         		public void actionPerformed(ActionEvent e)
@@ -165,10 +168,12 @@ public class Main {
         			String file = fileInput.getText();
         			try
         			{
+        				//file reader
         				FileReader fr = new FileReader(file);
         				BufferedReader br = new BufferedReader(fr);
         				String line = br.readLine();
         				line = br.readLine();
+        				
         				//counting amount of data for new array
         				int count = 0;
         				
@@ -178,14 +183,16 @@ public class Main {
         					count++;
         				}
         				
+        				//second file reader to
         				FileReader fr2 = new FileReader(file);
         				BufferedReader br2 = new BufferedReader(fr2);
         				String line2 = br2.readLine();
         				
-        				line2 = br2.readLine();		//to skip over columns line
-        				String[][] data2 = new String[count][4];
+        				line2 = br2.readLine();						//to skip over column names
+        				String[][] data2 = new String[count][4];	//creating new array
         				int i = 0;
         				
+        				//read and add data to new array
         				while (line2 != null)
         				{
         					String[] words = line2.split(",", 4);
@@ -198,8 +205,10 @@ public class Main {
         					line2 = br2.readLine();
         				}
         				
+        				//replace data
         				changer(data2);
         				
+        				//close readers
         				br.close();
         				br2.close();
         				
@@ -209,7 +218,9 @@ public class Main {
         				System.out.println("IO Exception");
         			}
         			
-        			
+        			//update home panel with new data
+        			homePanel.removeAll();
+        			homePanel.add(createTables(tempor));
         		}
         	});
 
@@ -227,31 +238,35 @@ public class Main {
 
         //===============================================SAVE PANEL===============================================
 
+        //add tab
         tabs.addTab("Save Data", saveDataPanel);
 
+        //add text field for name of save file
         JTextField userInput = new JTextField(8);
         saveDataPanel.add(userInput);
         JLabel label1 = new JLabel(".csv");
         saveDataPanel.add(label1);
 
+        //add button to activate save
         JButton b1 = new JButton();
         saveDataPanel.add(b1);
         b1.setSize(400,400);
         b1.setText("Save data");
         b1.setVisible(true);
 
-
-
+        //action listener for button
         b1.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 String fileName = userInput.getText();
 
+                //writing data to new file
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) 
                 {
                     StringJoiner joiner = new StringJoiner(",");
 
+                    //writing column names to file
                     for (int col = 0; col < column.length; col++) 
                     {
                         joiner.add(column[col]);
@@ -260,7 +275,7 @@ public class Main {
                     bw.write(joiner.toString());
                     bw.newLine();
 
-                    
+                    //writing data to file
                     for(int r = 0; r<data.length; r++)
                     {
                     	joiner = new StringJoiner(",");
@@ -274,10 +289,12 @@ public class Main {
                         bw.newLine();
                     }
                     
-                } catch (IOException exp) 
-                	{
+                } 
+                catch (IOException exp) 
+                {
                     exp.printStackTrace();
-                	}
+                }
+                
             }
         });
 
@@ -327,11 +344,12 @@ public class Main {
 	{
 		data = temps;
 	}
-	public static JTable createTables()
+	
+	public static JScrollPane createTables(JTable jazz)
 	{
-		JTable jazz = new JTable(data,column);
-		
-		return jazz;
+		jazz = new JTable(data,column);
+        JScrollPane sp=new JScrollPane(jazz);
+        return sp;
 	}
 
     
