@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 import javax.swing.JFrame;  
@@ -18,8 +23,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;  
-import org.jfree.data.xy.XYSeries;  
-import org.jfree.data.xy.XYSeriesCollection;  
+
   
 public class Test2 extends JFrame 
 {  
@@ -33,13 +37,13 @@ public class Test2 extends JFrame
   
     // Create chart  
     JFreeChart chart = ChartFactory.createTimeSeriesChart(   
-        "Date vs. Temperature Across Various Cities",   
+        "Temperature vs. Date Across Various Cities",   
         "Date", "Temperature", dataset);  
   
       
     //Changes background color  
     XYPlot plot = (XYPlot)chart.getPlot();  
-    plot.setBackgroundPaint(new Color(255,228,196));  
+    plot.setBackgroundPaint(Color.LIGHT_GRAY);  
       
      
     // Create Panel  
@@ -47,67 +51,82 @@ public class Test2 extends JFrame
     setContentPane(panel);  
   }  
   
+  
   private XYDataset createDataset() {  
 	 TimeSeriesCollection dataset = new TimeSeriesCollection();  
     
-    String path = "";
-	String line = "";
-	Scanner scan = new Scanner(System.in);
+	 String path = "";
+	 String line = "";
+	 Scanner scan = new Scanner(System.in);
+	 DateFormat format = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
 	
-	ArrayList<String> city = new ArrayList<String>();
-	ArrayList<String> date = new ArrayList<String>();
-	ArrayList<String> temperature = new ArrayList<String>();
 	
-	try
-	{
+	 ArrayList<String> city = new ArrayList<String>();
+	 ArrayList<String> date = new ArrayList<String>();
+	 ArrayList<String> temperature = new ArrayList<String>();
+	
+	 try
+	 {
 		//XYSeries series1 = new XYSeries("City 1");
-		BufferedReader br = new BufferedReader(new FileReader("something.csv"));
+		FileReader filepath = new FileReader("something.csv");
+		BufferedReader br = new BufferedReader(filepath);
+		
 		
 		line = br.readLine();
-		String[] info = line.split(",");
+//		String[] info = line.split(",");
 		
-		while((line = br.readLine()) != null)
+//		while((line = br.readLine()) != null)
+		for (int i = 0; i < 10; i++)
 		{		
-			System.out.println(line);
-			info = line.split(",");
+			line = br.readLine();
+			String[] info = line.split(",");
+//			info = line.split(",");
 			
 			city.add(info[0]);
 			date.add(info[1]);
 			temperature.add(info[2]);
 			
-//			series1.add(null, city.add(info[0]));
-//			series1.add(null, date.add(info[1]));
-//			series1.add(null, temperature.add(info[2]));
-			System.out.println(line);
-			System.out.println("City: " + info[0] + " Date: " + info[1] + " Temperature: " + info[2]);
-			TimeSeries series1 = new TimeSeries("Series2");  
-			series1.add(new Day(1, 1, 2017), Integer.parseInt(info[2]));
-			series1.add(new Day(1, 2, 2017), Integer.parseInt(info[2]));
-			series1.add(new Day(1, 3, 2017), Integer.parseInt(info[2]));
+//			try {
+//				Date d = format.parse(info[2]);
+//				System.out.println("City: " + info[0] + "\nDate: " + info[1] + "\nTemperature: " + info[2]);
+//				TimeSeries series1 = new TimeSeries(info[0]);  
+//				series1.add(new Day(d), Double.parseDouble(info[2]));
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		
+			System.out.println("City: " + info[0] + "\nDate: " + info[1] + "\nTemperature: " + info[2] + "\n");
+			TimeSeries series1 = new TimeSeries(info[0]);  
+//			series1.add(new Day(d), Double.parseDouble(info[2]));
+//			series1.add(new Day(7, 3, 2021), Double.parseDouble(info[2]));
+//			series1.add(new Day(5, 6, 2021), Double.parseDouble(info[2]));
 			
-			
+			Date d = format.parse(info[1]);
+			series1.add(new Day(d), Double.parseDouble(info[2]));
 			dataset.addSeries(series1);
-			return dataset;
 		}
-	}
-	catch(FileNotFoundException e)
-	{
+	 }
+	 catch(ParseException e) 
+	 {
+		 e.printStackTrace();
+	 }
+	 catch(FileNotFoundException e)
+	 {
 		e.printStackTrace();
-	}
-	catch(IOException e)
-	{
+	 }
+	 catch(IOException e)
+	 {
 		e.printStackTrace();
-	}   
-    return null;  
+	 }   
+	 return dataset;  
   }  
   
   public static void main(String[] args) 
   {  
-	  
-	  
 	  SwingUtilities.invokeLater(() -> {  
-      Test2 example = new Test2("Scatter Chart");  
-      example.setSize(800, 400);  
+      Test2 example = new Test2("Time Series Chart");  
+      example.setSize(1000, 500);  
       example.setLocationRelativeTo(null);  
       example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  
       example.setVisible(true);  
