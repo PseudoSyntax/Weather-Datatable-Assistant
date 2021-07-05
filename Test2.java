@@ -23,7 +23,6 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;  
-
   
 public class Test2 extends JFrame 
 {  
@@ -67,7 +66,6 @@ public class Test2 extends JFrame
 	
 	 try
 	 {
-		//XYSeries series1 = new XYSeries("City 1");
 		FileReader filepath = new FileReader("something.csv");
 		BufferedReader br = new BufferedReader(filepath);
 		
@@ -85,25 +83,14 @@ public class Test2 extends JFrame
 			city.add(info[0]);
 			date.add(info[1]);
 			temperature.add(info[2]);
-			
-//			try {
-//				Date d = format.parse(info[2]);
-//				System.out.println("City: " + info[0] + "\nDate: " + info[1] + "\nTemperature: " + info[2]);
-//				TimeSeries series1 = new TimeSeries(info[0]);  
-//				series1.add(new Day(d), Double.parseDouble(info[2]));
-//			} catch (ParseException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		
+				
 			System.out.println("City: " + info[0] + "\nDate: " + info[1] + "\nTemperature: " + info[2] + "\n");
-			TimeSeries series1 = new TimeSeries(info[0]);  
-//			series1.add(new Day(d), Double.parseDouble(info[2]));
-//			series1.add(new Day(7, 3, 2021), Double.parseDouble(info[2]));
-//			series1.add(new Day(5, 6, 2021), Double.parseDouble(info[2]));
 			
+			TimeSeries series1 = new TimeSeries(info[0]);  
 			Date d = format.parse(info[1]);
+			
 			series1.add(new Day(d), Double.parseDouble(info[2]));
+			
 			dataset.addSeries(series1);
 		}
 	 }
