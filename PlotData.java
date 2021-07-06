@@ -54,9 +54,9 @@ public class Test2 extends JFrame
   private XYDataset createDataset() {  
 	 TimeSeriesCollection dataset = new TimeSeriesCollection();  
     
-	 String path = "";
+//	 String path = "";
 	 String line = "";
-	 Scanner scan = new Scanner(System.in);
+//	 Scanner scan = new Scanner(System.in);
 	 DateFormat format = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
 	
 	
@@ -69,20 +69,18 @@ public class Test2 extends JFrame
 		FileReader filepath = new FileReader("something.csv");
 		BufferedReader br = new BufferedReader(filepath);
 		
-		
 		line = br.readLine();
 //		String[] info = line.split(",");
 		
-//		while((line = br.readLine()) != null)
-		for (int i = 0; i < 10; i++)
+		while((line = br.readLine()) != null)
 		{		
-			line = br.readLine();
+//			line = br.readLine();
 			String[] info = line.split(",");
 //			info = line.split(",");
 			
-			city.add(info[0]);
-			date.add(info[1]);
-			temperature.add(info[2]);
+//			city.add(info[0]);
+//			date.add(info[1]);
+//			temperature.add(info[2]);
 				
 			System.out.println("City: " + info[0] + "\nDate: " + info[1] + "\nTemperature: " + info[2] + "\n");
 			
@@ -90,9 +88,12 @@ public class Test2 extends JFrame
 			Date d = format.parse(info[1]);
 			
 			series1.add(new Day(d), Double.parseDouble(info[2]));
+//			series1.add(new Day(2, 1, 2019), Double.parseDouble(info[2]));
+//			series1.add(new Day(3, 2, 2019), Double.parseDouble(info[2]));
 			
 			dataset.addSeries(series1);
 		}
+		br.close();
 	 }
 	 catch(ParseException e) 
 	 {
