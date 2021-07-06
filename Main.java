@@ -1,7 +1,5 @@
-/**
- * <>
- * CSE 360: Group Assignment
- */
+/* CSE 360: Group Assignment
+        */
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -12,10 +10,18 @@ import java.net.MalformedURLException;
 import java.util.StringJoiner;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
+
 import java.net.URL;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+
+    static String data [][] = { {"Phoenix","7/2","100","F"},
+            {"Test","7/3","39","C"},
+            {"Random","5/6","70","F"}};
+    static String column[]={"City Name","Date","Temperature","Type"};
+
+    public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
+    {
         //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");  //Theme for the Windows, feel free to change it back to windows
 
@@ -83,6 +89,7 @@ public class Main {
         JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
         JPanel homePanel = new JPanel();
+        JPanel homePanel2 = new JPanel();
         JPanel aboutPanel = new JPanel();
         JPanel loadDataPanel = new JPanel();
         JPanel addDataPanel = new JPanel();
@@ -93,15 +100,9 @@ public class Main {
         //JLabel Welcome = new JLabel("\n Welcome " );
         //homePanel.add(Welcome);
         tabs.addTab("Home", homePanel);
-
-        String data[][]={ {"Phoenix","7/2","100","F"},
-                {"Test","7/3","39","C"},
-                {"Random","5/6","70","F"}};
-        String column[]={"City Name","Date","Temperature","Type"};
-        JTable jt=new JTable(data,column);
-        jt.setBounds(30,40,200,300);
-        JScrollPane sp=new JScrollPane(jt);
-        homePanel.add(sp);
+        JTable tempor = new JTable();
+        JScrollPane jsp = createTables(tempor);
+        homePanel.add(jsp);
 
 
 
@@ -112,79 +113,269 @@ public class Main {
 
         //===============================================ABOUT PANEL===============================================
 
-        tabs.addTab("About", aboutPanel);
+        //panel and color
+        JPanel pain = new JPanel();
+        pain.setBackground(Color.WHITE);
+
+        //creating text
+        JLabel group = new JLabel("\t\tTeam #28\n\n");
+        group.setFont(new Font("Times New Roman", Font.BOLD,18));
+        JLabel name1 = new JLabel("\t\t\tImaan Ahmed\n");
+        name1.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name2 = new JLabel("\t\t\tMay Lister\n");
+        name2.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name3 = new JLabel("\t\t\tCera Monson\n");
+        name3.setFont(new Font("Times New Roman", Font.PLAIN,15));
+        JLabel name4 = new JLabel("\t\t\tItalo Pennella");
+        name4.setFont(new Font("Times New Roman", Font.PLAIN,15));
+
+        //setting layout and adding text
+        BoxLayout Box = new BoxLayout(pain, BoxLayout.Y_AXIS);
+        pain.setLayout(Box);
+
+        pain.add(group);
+        pain.add(name1);
+        pain.add(name2);
+        pain.add(name3);
+        pain.add(name4);
+
+        //adding panel to tabs
+        tabs.addTab("About", pain);
+
         //===============================================LOAD PANEL===============================================
 
+        //add load tab
         tabs.addTab("Load Data", loadDataPanel);
 
+        //setting up text field for user to enter filename
+        JLabel selectFile = new JLabel("Select File");
+        loadDataPanel.add(selectFile);
+        JTextField fileInput = new JTextField(10);
+        loadDataPanel.add(fileInput);
 
+        //select file button
+        JButton select = new JButton();
+        select.setSize(400,100);
+        select.setText("Select File");
+        select.setVisible(true);
+        loadDataPanel.add(select);
 
+        //result of pushing button
+        select.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                String file = fileInput.getText();
+                try
+                {
+                    //file reader
+                    FileReader fr = new FileReader(file);
+                    BufferedReader br = new BufferedReader(fr);
+                    String line = br.readLine();
+                    line = br.readLine();
 
+                    //counting amount of data for new array
+                    int count = 0;
 
+                    while(line != null)
+                    {
+                        line = br.readLine();
+                        count++;
+                    }
+
+                    //second file reader to
+                    FileReader fr2 = new FileReader(file);
+                    BufferedReader br2 = new BufferedReader(fr2);
+                    String line2 = br2.readLine();
+
+                    line2 = br2.readLine();						//to skip over column names
+                    String[][] data2 = new String[count][4];	//creating new array
+                    int i = 0;
+
+                    //read and add data to new array
+                    while (line2 != null)
+                    {
+                        String[] words = line2.split(",", 4);
+                        data2[i][0] = words[0];
+                        data2[i][1] = words[1];
+                        data2[i][2] = words[2];
+                        data2[i][3] = words[3];
+
+                        i++;
+                        line2 = br2.readLine();
+                    }
+
+                    //replace data
+                    changer(data2);
+
+                    //close readers
+                    br.close();
+                    br2.close();
+
+                }
+                catch (IOException e2)
+                {
+                    System.out.println("IO Exception");
+                }
+
+                //update home panel with new data
+                homePanel.removeAll();
+                homePanel.add(createTables(tempor));
+            }
+        });
 
 
         //===============================================ADD PANEL===============================================
 
+
         tabs.addTab("Add Data", addDataPanel);
 
         JTable jt_add =new JTable(data,column);
-        jt.setBounds(30,40,200,300);
+        //jt.setBounds(30,40,200,300);
         JScrollPane sp2=new JScrollPane(jt_add);
         addDataPanel.add(sp2);
+
+
+        JLabel cityName = new JLabel("City");
+        JLabel date = new JLabel("Date");
+        JLabel tempBtn = new JLabel("Temperature");
+        JLabel degreeType = new JLabel("Degree Type(C/F)");
+
+
+        JTextField cityText = new JTextField("City",10);
+        JTextField dateText = new JTextField("Date",10);
+        JTextField tempText = new JTextField("Temperature",10);
+        JTextField degreeText = new JTextField("Degree Type",10);
+
+        addDataPanel.add(cityName);
+        addDataPanel.add(cityText);
+
+        addDataPanel.add(date);
+        addDataPanel.add(dateText);
+
+        addDataPanel.add(tempBtn);
+        addDataPanel.add(tempText);
+
+        addDataPanel.add(degreeType);
+        addDataPanel.add(degreeText);
+
+
+
+        JButton addRowBtn = new JButton("Submit");
+        addDataPanel.add(addRowBtn);
+
+        //String cityInput = cityText.getText();
+        //String dateInput = dateText.getText();
+        //String tempInput = tempText.getText();
+        //String degreeInput = degreeText.getText();
+
+
+
+        addRowBtn.addActionListener(new ActionListener() {
+            int count=1;//helps array grow with each btn click
+            //int tail = -1;
+            int i,j;
+
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("length of row "+data.length);
+                System.out.println("length of col "+data[0].length);
+                String cityInput = cityText.getText();
+                String dateInput = dateText.getText();
+                String tempInput = tempText.getText();
+                String degreeInput = degreeText.getText();
+
+                int n = data.length;//row size
+                int m = data[0].length;//col size
+
+                String[][] data2 = new String[count+data.length][4]; //new array declared
+                for ( i=0; i < data.length;i++ ) {
+                    for ( j=0; j < data[0].length;j++) { //we used num[0] because we need the length of the rows not the columns
+                        data2[i][j] = data[i][j];
+                        System.out.println(data2[i][j]); //Copies array
+                    }
+                }
+                for ( i = data.length; i < data.length+count;i++ ) {
+                    for (j = 0; j < 4; j++) {
+                        //while(tail!=count) {
+                        data2[i][0] = cityInput;
+                        data2[i][1] = dateInput;
+                        data2[i][2] = tempInput;
+                        data2[i][3] = degreeInput;
+                        //tail++;
+                        //}
+                        System.out.println(data2[i][j]); //Copies array
+                    }
+                }
+                //data[data2.length][4] = data2[i][j];//update data array size with data2 array size
+                count++;//updates data length
+                System.out.println("count var: "+count);
+            }
+
+        });
+
+
 
 
 
         //===============================================SAVE PANEL===============================================
 
+        //add tab
         tabs.addTab("Save Data", saveDataPanel);
 
-        JTable table = new JTable(data,column);
-        JScrollPane sp3=new JScrollPane(table);
-
+        //add text field for name of save file
         JTextField userInput = new JTextField(8);
         saveDataPanel.add(userInput);
         JLabel label1 = new JLabel(".csv");
         saveDataPanel.add(label1);
 
+        //add button to activate save
         JButton b1 = new JButton();
         saveDataPanel.add(b1);
         b1.setSize(400,400);
         b1.setText("Save data");
         b1.setVisible(true);
 
-        saveDataPanel.add(sp3);
-
-
-
+        //action listener for button
         b1.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 String fileName = userInput.getText();
 
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv")))) {
+                //writing data to new file
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName +".csv"))))
+                {
                     StringJoiner joiner = new StringJoiner(",");
 
-                    for (int col = 0; col < table.getColumnCount(); col++) {
-                        joiner.add(table.getColumnName(col));
+                    //writing column names to file
+                    for (int col = 0; col < column.length; col++)
+                    {
+                        joiner.add(column[col]);
                     }
 
                     bw.write(joiner.toString());
                     bw.newLine();
 
-                    for (int row = 0; row < table.getRowCount(); row++) {
+                    //writing data to file
+                    for(int r = 0; r<data.length; r++)
+                    {
                         joiner = new StringJoiner(",");
-                        for (int col = 0; col < table.getColumnCount(); col++) {
-                            Object obj = table.getValueAt(row, col);
+                        for (int c = 0; c<data[r].length; c++)
+                        {
+                            Object obj = data[r][c];
                             String value = obj == null ? "null" : obj.toString();
                             joiner.add(value);
                         }
                         bw.write(joiner.toString());
                         bw.newLine();
                     }
-                } catch (IOException exp) {
+
+                }
+                catch (IOException exp)
+                {
                     exp.printStackTrace();
                 }
+
             }
         });
 
@@ -208,32 +399,39 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
         frame.add(new JLabel("Terms of Use"));
-
         frame.setSize(400,450);
         JLabel README = new JLabel("You agree to give us A+");
         JButton AgreeBtn = new JButton("I AGREE");
         JButton DisagreeBtn = new JButton("I DISAGREE FOR NOW");
-
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
         TextArea Terms = new TextArea(20,50);
         Terms.append("Text goes here");
         Terms.setEditable(false);
-
         JScrollPane scroll = new JScrollPane(Terms);
         Terms.setBackground(Color.LIGHT_GRAY);
-
         frame.add(scroll);
         frame.add(AgreeBtn);
         frame.add(DisagreeBtn);
         frame.add(README);
         frame.setVisible(true);
-
         //JOptionPane.showMessageDialog(frame,"Warning.","Warning Box", JOptionPane.WARNING_MESSAGE);
         //custom title, custom icon
 */
     }
+
+    public static void changer(String[][] temps)
+    {
+        data = temps;
+    }
+
+    public static JScrollPane createTables(JTable jazz)
+    {
+        jazz = new JTable(data,column);
+        JScrollPane sp=new JScrollPane(jazz);
+        return sp;
+    }
+
 
 }//end of Main
