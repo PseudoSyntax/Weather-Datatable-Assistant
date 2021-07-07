@@ -9,24 +9,23 @@ import java.awt.GridLayout;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.util.StringJoiner;
-import java.util.Vector;
+
 import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
+
 
 import javax.swing.JFrame;  
-import javax.swing.SwingUtilities;  
+ 
 import javax.swing.WindowConstants;  
 import org.jfree.chart.ChartFactory;  
 import org.jfree.chart.ChartPanel;  
@@ -35,7 +34,9 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataset;  
+import org.jfree.data.xy.XYDataset; 
+
+
 
 import java.net.URL;
 
@@ -67,7 +68,7 @@ public class PlotData extends JFrame
 	    setContentPane(panel);  
 	} 
 	
-	static String data [][] = {};
+	static String data [][] = {{"Something", "9/21/2021", "90", "F"}};
 	static String column[]={"City Name","Date","Temperature","Type"};
 	
 	private static XYDataset createDataset() {
@@ -98,7 +99,6 @@ public class PlotData extends JFrame
 	
 	public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException 
 	{
-		//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");  //Theme for the Windows, feel free to change it back to windows
 
         JProgressBar progressBar; //Progress bar variable
@@ -118,8 +118,6 @@ public class PlotData extends JFrame
         splashScreen.setLocationRelativeTo(null);  //Sets in middle of user screen
 
         progressBar = new JProgressBar();
-        //progressBar.setStringPainted(true);  //This will show the percentage but is forced disabled with nimbus theme
-        //progressBar.setForeground(Color.ORANGE);  //Color is forced default orange when using nimbus theme
         progressBar.setMaximum(100);
         progressBar.setMinimum(0);
 
@@ -127,14 +125,7 @@ public class PlotData extends JFrame
         splashScreen.add(progressBar);
         progressBar.setBounds(-10, 300, 404, 14); //Bounds of Progress Bar
         progressBar.setPreferredSize(new Dimension(310, 30)); //Size of Progress BAr
-        
-//        SwingUtilities.invokeLater(() -> {  
-//            PlotData example = new PlotData("Time Series Chart");  
-//            example.setSize(1000, 500);  
-//            example.setLocationRelativeTo(null);  
-//            example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  
-//            example.setVisible(true);  
-//          });  
+       
 
         //Runnable inner class allows thread to move along bar
         Thread thread = new Thread()
@@ -155,7 +146,7 @@ public class PlotData extends JFrame
             }
         };
         thread.start();
-        Thread.sleep(100);  //Display Screen for a bit
+        Thread.sleep(5000);  //Display Screen for a bit
         splashScreen.setVisible(false); //Removes splashscreen load
         splashScreen.dispose();  //Deletes frame
         /******SPLASH SCREEN******/
@@ -307,11 +298,12 @@ public class PlotData extends JFrame
 
        
         tabs.addTab("Add Data", addDataPanel);
-        
+
+
         JTable jt_add =new JTable(data,column);
         //jt.setBounds(30,40,200,300);
         JScrollPane sp2=new JScrollPane(jt_add);
-        addDataPanel.add(sp2);
+
 
 
         JLabel cityName = new JLabel("City");
@@ -343,9 +335,6 @@ public class PlotData extends JFrame
         addDataPanel.add(addRowBtn);
 
         String cityInput = cityText.getText();
-        //String dateInput = dateText.getText();
-        //String tempInput = tempText.getText();
-        //String degreeInput = degreeText.getText();
 
         //final int[] count = {1};
         final int[] tail = {0};
@@ -353,17 +342,11 @@ public class PlotData extends JFrame
             //int count=1;//helps array grow with each btn click
 
             int i,j;
-            int count = 1;
+
             String temp = cityText.getText();
             public void actionPerformed(ActionEvent e) {
-                if(0 > 1){
+                int count = 1;
 
-                    String temp2 = "cityInput";
-                }
-                System.out.print(temp);
-
-                System.out.println("length of row "+data.length);
-                System.out.println("length of col "+data[0].length);
                 String cityInput = cityText.getText();
                 String dateInput = dateText.getText();
                 String tempInput = tempText.getText();
@@ -379,58 +362,32 @@ public class PlotData extends JFrame
                 for ( i = 0; i < data.length;i++ ) {
                     for ( j=0; j < data[0].length;j++) { //we used num[0] because we need the length of the rows not the columns
                         data2[i][j] = data[i][j];
-                        System.out.println(data2[i][j]); //Copies array
+                        
                     }
                 }
                 for (i = data.length; i < data.length+ count; i++ ) {//growing
                     for (j = 0; j < 4; j++) {
-                        //while(tail[0]!=count[0]) {
-                            //if(data2[i+1][3] == null) {
 
-                                if(i-2 == count) {//prints new statement in correct place on array
-                                    data2[i][0] = cityInput + "yeehaw";
+                                    data2[i][0] = cityInput;
                                     data2[i][1] = dateInput;
                                     data2[i][2] = tempInput;
                                     data2[i][3] = degreeInput;
-                                    System.out.print("#" + i +"Count:"+count+"      ");
-                                }
-                               // if(i==4){
-                                //    data2[i][0] = cityInput+"yeehaw2";
-                                //}
-                                //data2[i][1] = dateInput;
-                                //data2[i][2] = tempInput;
-                                //data2[i][3] = degreeInput;
-                            //}
-                            //tail[0]++;
-                        //}
-                        System.out.println(data2[i][j]); //Copies array
-                        //System.out.println(tail[0]);
+                                   
+                       
                         
                     }
-                    
                 }
-                //data[data2.length][4] = data2[i][j];//update data array size with data2 array size
 
-                /*
-                for ( i = 0; i < data2.length+count;i++ ) {
-                    for ( j=0; j < data2[0].length;j++) { //we used num[0] because we need the length of the rows not the columns
-                        data[i][j] = data2[i][j];
-                        System.out.println("Updating the data...\n"+data[i][j]); //Copies array
-                    }
-                }*/
                 count++;//updates data length
-//                addDataPanel.add(createTables(tempor));
-                System.out.println("count:"+count);
-
-                System.out.println("#####: "+ i);
-                //createTables(data2);
-            }
+               
+                changer(data2);
+                homePanel.removeAll();
+                homePanel.add(createTables(tempor));
+            }//end of actionlistener
 
         });
 
-        //update home panel with new data
-//		addDataPanel.removeAll();
-//		addDataPanel.add(createTables(tempor));
+
 
 
 
@@ -530,33 +487,7 @@ public class PlotData extends JFrame
             }
             
         });
-        
-        
-        /****TERMS OF USE FRAME****/
-        /*
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout());
-        frame.add(new JLabel("Terms of Use"));
-        frame.setSize(400,450);
-        JLabel README = new JLabel("You agree to give us A+");
-        JButton AgreeBtn = new JButton("I AGREE");
-        JButton DisagreeBtn = new JButton("I DISAGREE FOR NOW");
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        TextArea Terms = new TextArea(20,50);
-        Terms.append("Text goes here");
-        Terms.setEditable(false);
-        JScrollPane scroll = new JScrollPane(Terms);
-        Terms.setBackground(Color.LIGHT_GRAY);
-        frame.add(scroll);
-        frame.add(AgreeBtn);
-        frame.add(DisagreeBtn);
-        frame.add(README);
-        frame.setVisible(true);
-        //JOptionPane.showMessageDialog(frame,"Warning.","Warning Box", JOptionPane.WARNING_MESSAGE);
-        //custom title, custom icon
-*/
+         
 	}
 	
 	
