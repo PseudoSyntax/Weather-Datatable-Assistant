@@ -14,11 +14,11 @@ import javax.swing.table.*;
 
 import java.net.URL;
 
+
+
 public class Main {
 
-    static String data [][] = { {"Phoenix","7/2","100","F"},
-            {"Test","7/3","39","C"},
-            {"Random","5/6","70","F"}};
+    static String data [][] = { {"","","",""}};
     static String column[]={"City Name","Date","Temperature","Type"};
 
     public static void main(String[] args) throws InterruptedException, MalformedURLException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
