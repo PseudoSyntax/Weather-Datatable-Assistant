@@ -1,4 +1,5 @@
 // CSE 360: Group Assignment
+// Group Members: Imaan Ahmed, May Lister, Cera Monson, Italo Pennella
  
 import java.awt.*;
 import javax.swing.*;
@@ -41,6 +42,8 @@ import java.net.URL;
 public class PlotData extends JFrame 
 {
 	
+	//===============================================PLOT DATA PANEL===============================================
+	
 	public PlotData(String title) 
 	{  
 	    super(title);  
@@ -70,72 +73,26 @@ public class PlotData extends JFrame
 	private static XYDataset createDataset() {
 		TimeSeriesCollection dataset = new TimeSeriesCollection(); 
 		
-		
-//		int row = 0;
 		TimeSeries series1 = new TimeSeries("Cities");
 		
 		try
 		{
 			for (int i = 0; i < data.length; i++)
 			{
-				for (int j = 0; j < data[i].length-3; j++)
-				{
-					TimeSeries series2 = new TimeSeries("Phoenix");
-					//series1 = new TimeSeries(data[i][0]);
-//					series1 = new TimeSeries("Cities");
-					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d/yyyy");
-					String date = simpleDateFormat.format(new Date());
-					Date d = simpleDateFormat.parse(data[i][1]);
-					series2.add(new Day(d), Double.parseDouble(data[i][2]));
-//					series3.add(new Day(d), Double.parseDouble(data[i][2]));
-//					System.out.println(data[i][j]+ " ");
-				if (i == data.length - 1)
-				{
-					series1 = series2;
-					System.out.print(series1) ;
-				}
-			   }
+
+				TimeSeries series2 = new TimeSeries("Phoenix");
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d/yyyy");
+				String date = simpleDateFormat.format(new Date());
+				Date d = simpleDateFormat.parse(data[i][1]);
+				series1.add(new Day(d), Double.parseDouble(data[i][2]));
+
 			}
-//			series1 = series2;
 		} catch (ParseException e)
 		{
 			e.printStackTrace();
 		}
-//	    series1 = series2;
-//		dataset.addSeries(series3);
 	    dataset.addSeries(series1);
 	    return dataset;
-//		 TimeSeriesCollection dataset = new TimeSeriesCollection(); 
-//		 DateFormat format = new SimpleDateFormat("d/m/yyyy", Locale.ENGLISH);
-//		
-//		 for(int i = 0; i < data.length; i++)
-//	     {
-//			 for(int j = 0; j < data[i].length - 1; j++)
-//	         {
-//				 TimeSeries series1 = new TimeSeries(data[i][0]);
-//				 
-//				 try 
-//				 {
-//					Date d = format.parse(data[i][1]);
-//					series1.add(new Day(d), Double.parseDouble(data[i][2]));
-//					series1.add(new Day(d), Double.parseDouble(data[i][2]));
-////					series1.add(new Day(3, 5, 2016), Double.parseDouble(data[i][2]));
-//					System.out.print(data[i][j]);
-//					if(j < data[i].length - 1) System.out.print(" ");
-//					dataset.addSeries(series1);
-//				 } 
-//				 catch (ParseException e) 
-//				 {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				 }
-//	         }
-//	         System.out.println();
-//	         
-//	     }
-//	        
-//		 return dataset;
-		 
 	  }  
 	
 	
