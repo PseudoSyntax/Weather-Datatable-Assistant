@@ -44,3 +44,6 @@ Governing Law
 These Terms of Use and any dispute or claim arising out of, or related to them, shall be governed by and construed in accordance with the internal laws of the the Group Country without giving effect to any choice or conflict of law provision or rule.
 
 Any legal suit, action or proceeding arising out of, or related to, these Terms of Use or the Application shall be instituted exclusively in the federal courts of the Group Country(USA).
+
+
+Click Here to download the project released exe file: __https://github.com/PseudoSyntax/CSE360/raw/main/CSE360_Group28_Project.exe__
