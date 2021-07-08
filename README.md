@@ -1,10 +1,10 @@
 # CSE360 - Group #28
-Terms of Use of CSE360 Project
-Welcome to the Group CSE360 Project.
 
 
 **Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/CSE360/raw/main/CSE360_Group28_Project.exe__
 
+Terms of Use of CSE360 Project
+Welcome to the Group CSE360 Project.
 
 The Group provides this Application and Services (located at Github.com) to you subject to the notices, terms, and conditions set forth in these terms (the "Terms of Use"). In addition, when you use any of our Services, you will be subject to the rules, guidelines, policies, terms, and conditions applicable to such service, and they are incorporated into this Terms of Use by this reference.
 
