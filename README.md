@@ -1,4 +1,4 @@
-# CSE360
+# CSE360 - Group #28
 Terms of Use of CSE360 Project
 Welcome to the Group CSE360 Project.
 
