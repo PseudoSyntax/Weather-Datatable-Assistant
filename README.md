@@ -3,6 +3,17 @@
 
 **Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/Weather-Datatable-Assistant/releases/tag/v1.4.0__
 
+## Weather Datatable Assistant - CSE360
+A summer 2021 project devloped by Group28
+
+Group28 focused on developing a comprehensive piece of software that could:
+- import data from a .csv file 
+- export data to a .csv file 
+- Display Weather Data into a table
+- Display Weather Data on a graph
+
+
+
 Terms of Use of CSE360 Project
 Welcome to the Group CSE360 Project.
 
