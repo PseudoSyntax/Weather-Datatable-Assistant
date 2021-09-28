@@ -3,7 +3,7 @@
 
 **Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/Weather-Datatable-Assistant/releases/tag/v1.4.0__
 
-## Weather Datatable Assistant - CSE360
+## Weather Datatable Assistant - Description
 A summer 2021 project devloped by Group28
 
 Group28 focused on developing a comprehensive piece of software that could:
