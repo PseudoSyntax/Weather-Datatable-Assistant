@@ -14,10 +14,12 @@ Group28 focused on developing a comprehensive piece of software that could:
 
 
 
-Terms of Use of CSE360 Project
+## Terms of Use of CSE360 Project
 Welcome to the Group CSE360 Project.
 
-The Group provides this Application and Services (located at Github.com) to you subject to the notices, terms, and conditions set forth in these terms (the "Terms of Use"). In addition, when you use any of our Services, you will be subject to the rules, guidelines, policies, terms, and conditions applicable to such service, and they are incorporated into this Terms of Use by this reference.
+*The Group refers to Group28*
+
+Group28 provides this Application and Services (located at Github.com) to you subject to the notices, terms, and conditions set forth in these terms (the "Terms of Use"). In addition, when you use any of our Services, you will be subject to the rules, guidelines, policies, terms, and conditions applicable to such service, and they are incorporated into this Terms of Use by this reference.
 
 These Terms of Use are effective as of June 30, 2021.
 
