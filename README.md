@@ -25,7 +25,7 @@ Interfere with or damage our Services, including, without limitation, through th
 Use automated scripts to collect information or otherwise interact with the Services or the Application
 Enter into this agreement on behalf of another person or entity without consent or the legal capacity to make such agreements as a representative of an organization or entity
 Intellectual Property
-All code, text, software, scripts, graphics, files, photos, images, logos, and materials contained on this Application, or within the Services, are the sole property of the Group Application.
+All code, text, software, scripts, graphics, files, photos, images, logos, and materials contained on this Application, or within the Services, are the sole property of the Group Application. Use of the code or any part of the project must be approved by at least 2 members of Group28, unless the individual in question is a member of Group28.
 
 Unauthorized use of any materials contained on this Application or within the Service may violate copyright laws, trademark laws, the laws of privacy and publicity, and/or other regulations and statutes. If you believe that any of the materials infringe on any third party's rights, please contact the Group Application immediately at the address provided below.
 
@@ -39,8 +39,6 @@ The Application is provided "AS IS." appfigures, its suppliers, officers, direct
 
 Changes to these Terms of Use
 The Group Application retains the right to, at any time, modify or discontinue, any or all parts of the Application without notice.
-
-This Terms of Use was created by termsusetemplate.com for the GroupApplication.com
 
 Additionally, the Group Application reserves the right, in its sole discretion, to modify these Terms of Use at any time, effective by posting new terms on the Application with the date of modification. You are responsible for reading and understanding the terms of this agreement prior to registering with, or using the Service. Your use of the Application and/or Services after any such modification has been published constitutes your acceptance of the new terms as modified in these Terms of Use.
 
