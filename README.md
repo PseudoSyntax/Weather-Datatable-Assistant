@@ -1,4 +1,4 @@
-# CSE360 - Group #28
+# Weather Datatable Assistant - A product of Group#28
 
 
 **Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/Weather-Datatable-Assistant/releases/tag/v1.4.0__
