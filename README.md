@@ -1,7 +1,7 @@
 # CSE360 - Group #28
 
 
-**Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/CSE360/raw/main/CSE360_Group28_Project.exe__
+**Click Here to download the project released exe file:** __https://github.com/PseudoSyntax/Weather-Datatable-Assistant/releases/tag/v1.4.0__
 
 Terms of Use of CSE360 Project
 Welcome to the Group CSE360 Project.
@@ -25,7 +25,7 @@ Interfere with or damage our Services, including, without limitation, through th
 Use automated scripts to collect information or otherwise interact with the Services or the Application
 Enter into this agreement on behalf of another person or entity without consent or the legal capacity to make such agreements as a representative of an organization or entity
 Intellectual Property
-All code, text, software, scripts, graphics, files, photos, images, logos, and materials contained on this Application, or within the Services, are the sole property of the Group Application. Use of the code or any part of the project must be approved by at least 2 members of Group28, unless the individual in question is a member of Group28.
+All code, text, software, scripts, graphics, files, photos, images, logos, and materials contained on this Application, or within the Services, are the sole property of the Group Application. *Use of the code or any part of the project must be approved by at least 2 members of Group28, unless the individual in question is a member of Group28.*
 
 Unauthorized use of any materials contained on this Application or within the Service may violate copyright laws, trademark laws, the laws of privacy and publicity, and/or other regulations and statutes. If you believe that any of the materials infringe on any third party's rights, please contact the Group Application immediately at the address provided below.
 
